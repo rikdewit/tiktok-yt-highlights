@@ -3,3 +3,4 @@ token.pickle
 vids/*
 __pycache__
 *.pyc
+out.mp4
