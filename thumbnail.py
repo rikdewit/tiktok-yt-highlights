@@ -38,7 +38,7 @@ def add_episode_number(img, number):
     txt = Image.new("RGBA", base.size, (0,0,0,0))
 
     # get a font
-    fnt = ImageFont.truetype(".fonts/Montserrat-BoldItalic.ttf", 110)
+    fnt = ImageFont.truetype("./fonts/Montserrat-BoldItalic.ttf", 110)
     # get a drawing context
     d = ImageDraw.Draw(txt)
 
