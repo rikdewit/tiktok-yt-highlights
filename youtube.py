@@ -43,7 +43,7 @@ CLIENT_SECRETS_FILE = 'client_secret.json'
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
-SCOPES = ['https://www.googleapis.com/auth/youtube.upload', "htt"]
+SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
 API_SERVICE_NAME = 'youtube'
 API_VERSION = 'v3'
 
@@ -117,7 +117,8 @@ def initialize_upload(youtube, options):
     media_body=MediaFileUpload(options.file, chunksize=-1, resumable=True)
   )
 
-  resumable_upload(insert_request)
+  video_id = resumable_upload(insert_request)
+  return video_id
 
 # This method implements an exponential backoff strategy to resume a
 # failed upload.
@@ -132,6 +133,7 @@ def resumable_upload(request):
       if response is not None:
         if 'id' in response:
           print('Video id "%s" was successfully uploaded.' % response['id'])
+          return response['id']
         else:
           exit('The upload failed with an unexpected response: %s' % response)
     except HttpError as e:
@@ -182,9 +184,11 @@ def upload_video(file, title="tiktok trending", description="description", categ
         privacyStatus=privacy_status)
     youtube = get_authenticated_service(newLogin=newLogin)
     try:
-        initialize_upload(youtube, args)
+        video_id = initialize_upload(youtube, args)
+        return video_id
     except HttpError as e:
         print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
+        return None
 
 # if __name__ == '__main__':
     # parser = argparse.ArgumentParser()
@@ -209,5 +213,5 @@ def upload_video(file, title="tiktok trending", description="description", categ
 #     print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
 
 if __name__ == "__main__":
-  # upload_video("out.mp4", newLogin=True)
-  upload_thumbnail("R09WkvNP_70", "Tiktok thumbnail.png")
+  id = upload_video("out.mp4", newLogin=True)
+  upload_thumbnail(id, "Tiktok thumbnail.png")

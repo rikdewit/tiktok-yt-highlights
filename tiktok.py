@@ -8,7 +8,7 @@ def download_trending(results = 10):
     vids = get_trending_video_data(results)
     filepaths = []
     for vid in vids:
-        filepath = "vids/"+vid["desc"][:30]+"-"+vid["id"]+".mp4"
+        filepath = "./vids/"+vid["desc"][:30]+"-"+vid["id"]+".mp4"
         filepaths.append(filepath)
         download(vid["url"], filepath)
     

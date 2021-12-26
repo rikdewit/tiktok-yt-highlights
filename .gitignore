@@ -1,7 +1,10 @@
 client_secret.json
 token.pickle
 vids/*
+imgs/*
+thumbs/*
 __pycache__
 *.pyc
 out.mp4
 .DS_Store
+thumbnail.png
