@@ -16,9 +16,10 @@ def edit_videos(vid_paths, outputfile="out.mp4"):
     video = CompositeVideoClip([joined_clips])
     video.set_audio(joined_audio)
 
-    video.write_videofile(outputfile)
+    video.write_videofile(outputfile, fps=30, ffmpeg_params=["-nostdin"])
 
     return outputfile
+
 
 
 # txt_clip = TextClip("My Holidays 2013",fontsize=70,color='white')
