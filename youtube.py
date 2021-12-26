@@ -190,28 +190,8 @@ def upload_video(file, title="tiktok trending", description="description", categ
         print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
         return None
 
-# if __name__ == '__main__':
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('--file', required=True, help='Video file to upload')
-    # parser.add_argument('--title', help='Video title', default='Test Title')
-    # parser.add_argument('--description', help='Video description',
-    #     default='Test Description')
-    # parser.add_argument('--category', default='24',
-    #     help='Numeric video category. ' +
-    #     'See https://developers.google.com/youtube/v3/docs/videoCategories/list')
-    # parser.add_argument('--keywords', help='Video keywords, comma separated',
-    #     default='')
-    # parser.add_argument('--privacyStatus', choices=VALID_PRIVACY_STATUSES,
-    #     default='private', help='Video privacy status.')
-    # args = parser.parse_args()
-    # print(args)
-#   youtube = get_authenticated_service()
-
-#   try:
-#     initialize_upload(youtube, args)
-#   except HttpError as e:
-#     print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
-
 if __name__ == "__main__":
-  id = upload_video("out.mp4", newLogin=True)
-  upload_thumbnail(id, "Tiktok thumbnail.png")
+  # id = upload_video("out.mp4", newLogin=False)
+  # upload_thumbnail(id, "Tiktok thumbnail.png")
+
+  get_authenticated_service()
