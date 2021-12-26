@@ -4,3 +4,4 @@ vids/*
 __pycache__
 *.pyc
 out.mp4
+.DS_Store

@@ -1,4 +1,5 @@
 import argparse
+from re import T
 import httplib2
 import os
 import random
@@ -42,7 +43,7 @@ CLIENT_SECRETS_FILE = 'client_secret.json'
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
-SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+SCOPES = ['https://www.googleapis.com/auth/youtube.upload', "htt"]
 API_SERVICE_NAME = 'youtube'
 API_VERSION = 'v3'
 
@@ -50,14 +51,14 @@ VALID_PRIVACY_STATUSES = ('public', 'private', 'unlisted')
 
 
 # Authorize the request and store authorization credentials.
-def get_authenticated_service():
+def get_authenticated_service(newLogin=False):
     creds = ""
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
 
     # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
+    if not creds or not creds.valid or newLogin:
         if creds and creds.expired and creds.refresh_token:
             try:
                 creds.refresh(Request())
@@ -76,6 +77,10 @@ def get_authenticated_service():
 #   flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
 #   credentials = flow.run_console()
     return build(API_SERVICE_NAME, API_VERSION, credentials = creds)
+
+
+
+
 
 def initialize_upload(youtube, options):
   tags = None
@@ -150,7 +155,23 @@ def resumable_upload(request):
       time.sleep(sleep_seconds)
 
 
-def upload_video(file, title="tiktok trending", description="description", category=24, keywords="", privacy_status="private"):
+def upload_thumbnail(video_id, file, newLogin=False):
+  youtube = get_authenticated_service(newLogin=newLogin)
+  response = ""
+  try:
+    request = youtube.thumbnails().set(
+        videoId = video_id,
+        media_body=MediaFileUpload(file, chunksize=-1, resumable=True)
+    )
+    response = request.execute()
+    print(response)
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
+
+  return response
+
+
+def upload_video(file, title="tiktok trending", description="description", category=24, keywords="", privacy_status="private", newLogin=False):
     
     args = argparse.Namespace(
         file=file, 
@@ -159,7 +180,7 @@ def upload_video(file, title="tiktok trending", description="description", categ
         category=category, 
         keywords=keywords, 
         privacyStatus=privacy_status)
-    youtube = get_authenticated_service()
+    youtube = get_authenticated_service(newLogin=newLogin)
     try:
         initialize_upload(youtube, args)
     except HttpError as e:
@@ -187,5 +208,6 @@ def upload_video(file, title="tiktok trending", description="description", categ
 #   except HttpError as e:
 #     print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
 
-
-upload_video("out.mp4")
+if __name__ == "__main__":
+  # upload_video("out.mp4", newLogin=True)
+  upload_thumbnail("R09WkvNP_70", "Tiktok thumbnail.png")
