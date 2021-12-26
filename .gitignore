@@ -8,3 +8,5 @@ __pycache__
 out.mp4
 .DS_Store
 thumbnail.png
+venv
+.env
