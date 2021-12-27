@@ -2,6 +2,7 @@ from TikTokApi import TikTokApi
 import requests
 import os
 import glob
+from video_database import add_videos_to_used, is_used
 
 def download_trending(results = 10):
     clear_vids()
@@ -12,16 +13,26 @@ def download_trending(results = 10):
         filepaths.append(filepath)
         download(vid["url"], filepath)
     
-    return filepaths
+    return [vids, filepaths]
 
 
 def get_trending_video_data(results=10):
 
     api = TikTokApi.get_instance()
-    trending = api.by_trending(count=results, custom_verifyFp="", language="en", region="US")
+    trending = api.by_trending(count=int(results*2)+2, custom_verifyFp="", language="en", region="US")
+
+    new_vids = []
+    for tiktok in trending:
+        print("tik")
+        if(not is_used(tiktok["id"])):
+            print("new")
+            new_vids.append(tiktok)
+
+    if(results > len(new_vids)):
+        print(f"Could not find enough new trending video's, returning {len(new_vids)} new videos")
 
     vids = []
-    for tiktok in trending:
+    for tiktok in new_vids[:min(results,len(new_vids))]:
         data = {}
         data["id"] = tiktok['id']
         data["stats"] = tiktok["stats"]
@@ -29,7 +40,6 @@ def get_trending_video_data(results=10):
         data["url"] = tiktok["video"]["downloadAddr"]
         print(data["stats"])
         vids.append(data)
-
     return vids
 
 def download(url, outputfile):
@@ -50,4 +60,5 @@ def clear_vids():
             print("Error: %s : %s" % (f, e.strerror))
 
 if __name__ == "__main__":
-    download_trending()
+    [vids, filepaths] = download_trending()
+    add_videos_to_used(vids)
