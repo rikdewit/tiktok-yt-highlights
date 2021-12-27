@@ -34,29 +34,27 @@ def increment_episode_number():
     
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('--videos', help='number of videos to download and compile', default='30')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--videos', help='number of videos to download and compile', default='30')
     
-    # parser.add_argument("--newlogin", help="log in with a new google account", default=False)
-    # args = vars(parser.parse_args())
-    # num_vids = int(args["videos"])
-    # while(num_vids > 100 or num_vids < 4):
-    #     num_vids = int(input("Choose number of videos between 4 and 100: "))
+    parser.add_argument("--newlogin", help="log in with a new google account", default=False)
+    args = vars(parser.parse_args())
+    num_vids = int(args["videos"])
+    while(num_vids > 100 or num_vids < 4):
+        num_vids = int(input("Choose number of videos between 4 and 100: "))
         
-    # [vids, filepaths] = download_trending(num_vids)
-    # edited = edit_videos(filepaths)
-    # episode_number = get_episode_number()
-    # title = "Tiktok Trending NL #" + str(get_episode_number())
-    # description = "Wat is er deze keer weer op tiktok gebeurd? #trending #fyp #tiktok"
-
-    # id = upload_video(edited, title=title, privacy_status="public", description=description, newLogin=bool(args["newlogin"]))
-    # make_thumbnail("thumbnail.png", episode_number )
-    # upload_thumbnail(id, "thumbnail.png")
-    # increment_episode_number()
-    # add_videos_to_used(vids)
-
-    [vids, filepaths] = download_trending(10)
+    [vids, filepaths] = download_trending(num_vids)
     edited = edit_videos(filepaths)
+    episode_number = get_episode_number()
+    title = "Tiktok Trending NL #" + str(get_episode_number())
+    description = "Wat is er deze keer weer op tiktok gebeurd? #trending #fyp #tiktok"
+
+    id = upload_video(edited, title=title, privacy_status="public", description=description, newLogin=bool(args["newlogin"]))
+    make_thumbnail("thumbnail.png", episode_number )
+    upload_thumbnail(id, "thumbnail.png")
+    increment_episode_number()
     add_videos_to_used(vids)
+
+
 
 

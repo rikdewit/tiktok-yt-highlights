@@ -10,3 +10,4 @@ out.mp4
 thumbnail.png
 venv
 .env
+*.mp4
