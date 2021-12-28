@@ -47,7 +47,7 @@ if __name__ == "__main__":
     edited = edit_videos(filepaths, endscreen_path="imgs/End screen tiktok highlights.mov")
     episode_number = get_episode_number()
     title = "Tiktok Trending NL #" + str(get_episode_number())
-    description = "Wat is er deze keer weer op tiktok gebeurd? #trending #fyp #tiktok"
+    description = "Wat is er deze keer weer op tiktok gebeurd? #trending #fyp #tiktok \nOutro music by Woes Nos: https://open.spotify.com/track/4NSlWBAmtVi7gEvb5mxFVg?si=2f49e22520014a17"
 
     id = upload_video(edited, title=title, privacy_status="public", description=description, newLogin=bool(args["newlogin"]))
     make_thumbnail("thumbnail.png", episode_number )
