@@ -44,7 +44,7 @@ if __name__ == "__main__":
         num_vids = int(input("Choose number of videos between 4 and 100: "))
         
     [vids, filepaths] = download_trending(num_vids)
-    edited = edit_videos(filepaths)
+    edited = edit_videos(filepaths, endscreen_path="imgs/End screen tiktok highlights.mov")
     episode_number = get_episode_number()
     title = "Tiktok Trending NL #" + str(get_episode_number())
     description = "Wat is er deze keer weer op tiktok gebeurd? #trending #fyp #tiktok"

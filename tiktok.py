@@ -2,6 +2,7 @@ from TikTokApi import TikTokApi
 import requests
 import os
 import glob
+from video import edit_videos
 from video_database import add_videos_to_used, is_used
 
 def download_trending(results = 10):
@@ -60,5 +61,7 @@ def clear_vids():
             print("Error: %s : %s" % (f, e.strerror))
 
 if __name__ == "__main__":
-    [vids, filepaths] = download_trending()
-    add_videos_to_used(vids)
+    [vids, filepaths] = download_trending(3)
+    # add_videos_to_used(vids)
+
+    edit_videos(filepaths, endscreen_path="imgs/End screen tiktok highlights.mov")
