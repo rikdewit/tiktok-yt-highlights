@@ -1,6 +1,7 @@
 from TikTokApi import TikTokApi
 import requests
 import os
+import re
 import glob
 from video import edit_videos
 from video_database import add_videos_to_used, is_used
@@ -10,7 +11,7 @@ def download_trending(results = 10):
     vids = get_trending_video_data(results)
     filepaths = []
     for vid in vids:
-        filepath = "./vids/"+vid["desc"][:30]+"-"+vid["id"]+".mp4"
+        filepath = "./vids/"+vid["id"]+".mp4"
         filepaths.append(filepath)
         download(vid["url"], filepath)
     
